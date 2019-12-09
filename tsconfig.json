@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "outDir": "./.temp/tsc",
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "module": "commonjs",
+        "target": "es6",
+        "jsx": "react",
+        "sourceRoot": "src"
+    }
+}
