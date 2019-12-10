@@ -1,2 +1,2 @@
 npx webpack
-npm run copy:index
+npm run copy

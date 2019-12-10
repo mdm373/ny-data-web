@@ -6,10 +6,15 @@
   "scripts": {
     "dev": "tsc -w",
     "clean": "sh ./scripts/clean.sh",
-    "wait-for-serve": "wait-on ./.temp/tsc/local/server.js",
-    "serve": "npm run wait-for-serve && sh ./scripts/build.sh && nodemon --watch ./.temp/tsc ./.temp/tsc/local/server",
-    "copy:index": "mkdir -p ./.temp/pack && cp index.html ./.temp/pack/index.html",
-    "pack-dev": "npm run copy:index && webpack --watch",
+    "wait-for-serve": "wait-on ./.temp/tsc/server/index.js",
+    "serve": "npm run wait-for-serve && sh ./scripts/build.sh && nodemon --watch ./.temp/tsc ./.temp/tsc/server",
+    "copy:normalize" : "mkdir -p ./.temp/pack",
+    "copy:index": "cp index.html ./.temp/pack/index.html",
+    "copy:bootstrap": "cp ./node_modules/bootstrap/dist/js/bootstrap.min.js ./.temp/pack/bootstrap.min.js",
+    "copy:jquery": "cp ./node_modules/jquery/dist/jquery.slim.min.js ./.temp/pack/jquery.slim.min.js",
+    "copy:popper": "cp ./node_modules/popper.js/dist/popper.min.js ./.temp/pack/popper.min.js",
+    "copy": "run-s copy:*",
+    "pack-dev": "npm run copy && webpack --watch",
     "serve-dev": "npm run clean && run-p -r dev pack-dev serve"
   },
   "repository": {
@@ -42,6 +47,9 @@
     "webpack-cli": "^3.3.10"
   },
   "dependencies": {
+    "bootstrap": "^4.4.1",
+    "jquery": "^3.4.1",
+    "popper.js": "^1.16.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
   }
