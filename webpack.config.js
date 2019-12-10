@@ -1,5 +1,10 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const DefinePlugin = require('webpack').DefinePlugin;
+const secrets = require("./.secrets.json");
 
+const appConfigEnv = (process.env.APP_CONFIG_ENV || "").toUpperCase();
+const appConfig = secrets.APP_CONFIG[appConfigEnv] || secrets.APP_CONFIG.HOSTED
+console.log(`packing with config: ${JSON.stringify(appConfig)}`)
 module.exports = {
     entry: './src/app/',
     watch: false,
@@ -7,7 +12,8 @@ module.exports = {
         ignored: ['node_modules', 'scripts', '.temp', 'src/local']
     },
     plugins: [
-        new MiniCssExtractPlugin({filename: "[name].css", chunkFilename: "[id].css"})
+        new MiniCssExtractPlugin({filename: "[name].css", chunkFilename: "[id].css"}),
+        new DefinePlugin({ appConfig: JSON.stringify(appConfig)})
     ],
     mode: "production",
     devtool: "source-map",

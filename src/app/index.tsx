@@ -2,6 +2,8 @@ import './index.scss'
 
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import {getAppConfig} from "./config";
+console.log("appConfig", getAppConfig())
 
 ReactDOM.render(
     <div>
