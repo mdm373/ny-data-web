@@ -1,5 +1,6 @@
 export type AppConfig = Readonly<{
-    apiDomain: string
+    apiDomain: string,
+    mapsApiKey: string
 }>
 
 declare var appConfig: AppConfig

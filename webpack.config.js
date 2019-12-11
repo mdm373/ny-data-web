@@ -6,7 +6,7 @@ const appConfigEnv = (process.env.APP_CONFIG_ENV || "").toUpperCase();
 const appConfig = secrets.APP_CONFIG[appConfigEnv] || secrets.APP_CONFIG.HOSTED
 console.log(`packing with config: ${JSON.stringify(appConfig)}`)
 module.exports = {
-    entry: './src/app/',
+    entry: './src/app/app',
     watch: false,
     watchOptions: {
         ignored: ['node_modules', 'scripts', '.temp', 'src/local']
@@ -17,7 +17,7 @@ module.exports = {
     ],
     mode: "production",
     devtool: "source-map",
-    resolve: {extensions: [".ts", ".tsx", ".js", ".jsx", ".scss", ".css"]},
+    resolve: {extensions: [".ts", ".tsx", ".js", ".jsx", ".scss", ".css", ".svg"]},
     output: { path: __dirname + '/.temp/pack', filename: '[name].js'},
     module: {
         rules: [{
@@ -34,6 +34,12 @@ module.exports = {
             test: /\.ts(x?)$/,
             exclude: /node_modules/,
             use: [{loader: "ts-loader"}]
+        },
+        {
+            test: /\.svg$/,
+            use: [{
+                loader: 'file-loader',
+            }]
         },
         {
             enforce: "pre", test: /\.js$/, loader: "source-map-loader"

@@ -3,6 +3,10 @@
 
 See [ingest](https://github.com/mdm373/ny-data-ingest) and [api](https://github.com/mdm373/ny-data-api) for data source details
 
+## Stack
+ * source: webpack, typescript, react, scss, bootstrap
+ * infra: s3 / cloudformation (serverless)
+
 ## Pre-Requisits
 * for deployment
   * aws-cli
@@ -21,14 +25,13 @@ See [ingest](https://github.com/mdm373/ny-data-ingest) and [api](https://github.
     "APP_CONFIG" : {
         "LOCAL" : {
             "apiDomain" : "http://domain-to-hit-for-local"
+            "mapsApiKey" : "YOUR GOOGLE MAPS API KEY"
         },
-        "HOSTED" : {
-            "apiDomain" : "https://domain-to-hit-when-deployed"
-        }
+        "HOSTED" : { ... } // same as local but for web hosted values
     }
 }
  ```
- Deployment assumes a web served cloud formation serving from s3.
+
 
  ## Scripts
  * `npm run dev-serve`: runs a watched static asset server on port `80` or `APP_PORT` env var
