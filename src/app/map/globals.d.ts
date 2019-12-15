@@ -1,6 +1,17 @@
 
 declare namespace google {
     namespace maps {
+        interface PolylineConfig {
+            path: MapPoint[],
+            geodesic: boolean,
+            strokeColor: string,
+            strokeOpacity: number,
+            strokeWeight: number
+        }
+        class Polyline {
+            constructor(config: PolylineConfig)
+            setMap(map: Map): void
+        }
         interface MapPoint {
             readonly lat: number;
             readonly lng: number;
