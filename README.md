@@ -3,7 +3,7 @@
 
 See [ingest](https://github.com/mdm373/ny-data-ingest) and [api](https://github.com/mdm373/ny-data-api) for data source details
 
-## Stack
+## Tooling
  * source: webpack, typescript, react, scss, bootstrap
  * infra: s3 / cloudformation (serverless)
 
