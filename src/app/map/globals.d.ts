@@ -1,27 +1,49 @@
 
 declare namespace google {
     namespace maps {
-        interface PolylineConfig {
-            path: MapPoint[],
+        type MarkerOptions = Partial<Readonly<{
+            label: string,
+            position: LatLng,
+            map: Map,
+        }>>
+        type PolylineOptions = Partial<Readonly<{
+            path: LatLng[],
             geodesic: boolean,
             strokeColor: string,
             strokeOpacity: number,
-            strokeWeight: number
-        }
+            strokeWeight: number,
+            map: Map,
+        }>>
+        type PolygonOptions = Partial<Readonly<{
+            path: LatLng[] | LatLng[][],
+            geodesic: boolean,
+            strokeColor: string,
+            strokeOpacity: number,
+            strokeWeight: number,
+            fillColor: string,
+            fillOpacity: number,
+            map: Map,
+        }>>
+        type LatLng = Readonly<{
+            lat: number;
+            lng: number;
+        }>
+        type MapOptions = Partial<Readonly<{
+            center: LatLng;
+            zoom: number;
+        }>>
+        
         class Polyline {
-            constructor(config: PolylineConfig)
-            setMap(map: Map): void
+            constructor(options: PolylineOptions)
         }
-        interface MapPoint {
-            readonly lat: number;
-            readonly lng: number;
-        }
-        interface MapConfig {
-            readonly center: MapPoint;
-            readonly zoom: number;
+        class Polygon {
+            constructor(options: PolygonOptions)
         }
         class Map {
-            constructor(element: HTMLElement, config: MapConfig)
-        } 
+            constructor(element: HTMLElement, options: MapOptions)
+        }
+        class Marker {
+            constructor(options: MarkerOptions)
+        }
     }
 }

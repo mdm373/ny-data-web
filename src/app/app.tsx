@@ -4,7 +4,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { getAppMap } from './map/map';
 import { GithubButton } from './social/github-button';
-import { getPrecinctPoly } from './precinct/get-precinct-poly';
+import { getPrecinctPolys } from './precinct/get-precinct-poly';
 
 (async () => {
     try {
@@ -38,16 +38,27 @@ import { getPrecinctPoly } from './precinct/get-precinct-poly';
         );
 
         const map = await asyncMap;
-        (await getPrecinctPoly()).forEach((path) => {
-            var polyLine = new google.maps.Polyline({
-                path,
-                geodesic: true,
-                strokeColor: '#FF0000',
-                strokeOpacity: 1.0,
-                strokeWeight: 2
-            });
-            polyLine.setMap(map);
-        })
+        const precincts = await getPrecinctPolys();
+        precincts.forEach((precinct) => {
+            new google.maps.Marker({
+                map,
+                label: precinct.id,
+                position: precinct.centroid
+            })
+            precinct.areas.forEach((precinctPoly) => {
+                new google.maps.Polygon({
+                    path: [...precinctPoly],
+                    geodesic: true,
+                    strokeColor: '#FF0000',
+                    strokeOpacity: 1.0,
+                    strokeWeight: 2,
+                    fillColor: '#FF0000',
+                    map,
+                });
+            })
+        });
+        
+        
     } catch(error) {
         console.error(`unexpected error ${error}`)
     }

@@ -7,7 +7,7 @@ import Helmet from "react-helmet";
 
 
 export const getAppMap = (mapId: string): {AppMap: React.FC<{}>, map: Promise<google.maps.Map>} => {
-    const getMap = (mapConfig: google.maps.MapConfig): {Map: React.FC<{apiKey: string}>, map: Promise<google.maps.Map>} => {
+    const getMap = (mapConfig: google.maps.MapOptions): {Map: React.FC<{apiKey: string}>, map: Promise<google.maps.Map>} => {
         const map = new Promise<google.maps.Map>((accept) => {
             const initMap = () => {
                 const map = new google.maps.Map(document.getElementById(mapId), mapConfig);
