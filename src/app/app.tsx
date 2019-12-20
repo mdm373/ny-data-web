@@ -4,7 +4,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { getAppMap } from './map/map';
 import { GithubButton } from './social/github-button';
-import { getPrecinctPolys } from './precinct/get-precinct-poly';
+import { BoundDrop } from './bounds/bound-drop';
 
 (async () => {
     try {
@@ -26,39 +26,17 @@ import { getPrecinctPolys } from './precinct/get-precinct-poly';
                         <p className="lead font-weight-normal">playing with nyc's open data</p>
                     </div>
                 </div>
-                <div className="container   ">
+                <div className="container">
                     <div className="row">
                         <div className="col-12 map-row">
                             <AppMap></AppMap>
+                            <BoundDrop map={asyncMap}></BoundDrop>
                         </div>
                     </div>
                 </div>
             </div>,
             document.getElementById("ny-data-app")
         );
-
-        const map = await asyncMap;
-        const precincts = await getPrecinctPolys();
-        precincts.forEach((precinct) => {
-            new google.maps.Marker({
-                map,
-                label: precinct.id,
-                position: precinct.centroid
-            })
-            precinct.areas.forEach((precinctPoly) => {
-                new google.maps.Polygon({
-                    path: [...precinctPoly],
-                    geodesic: true,
-                    strokeColor: '#FF0000',
-                    strokeOpacity: 1.0,
-                    strokeWeight: 2,
-                    fillColor: '#FF0000',
-                    map,
-                });
-            })
-        });
-        
-        
     } catch(error) {
         console.error(`unexpected error ${error}`)
     }

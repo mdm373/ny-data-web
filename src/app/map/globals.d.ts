@@ -38,12 +38,14 @@ declare namespace google {
         }
         class Polygon {
             constructor(options: PolygonOptions)
+            setMap(map: google.maps.Map|null): void
         }
         class Map {
             constructor(element: HTMLElement, options: MapOptions)
         }
         class Marker {
             constructor(options: MarkerOptions)
+            setMap(map: google.maps.Map|null): void
         }
     }
 }
