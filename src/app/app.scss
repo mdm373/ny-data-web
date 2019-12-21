@@ -1,7 +1,7 @@
 @import "node_modules/bootstrap/scss/bootstrap";
 
 .map-row {
-  height: 400px;
+  height: 600px;
 }
 .container {
     max-width: 960px;
@@ -12,11 +12,6 @@
     -webkit-backdrop-filter: saturate(180%) blur(20px);
     backdrop-filter: saturate(180%) blur(20px);
   }
-  
-  
-  /*
-   * Extra utilities
-   */
   
   .border-top { border-top: 1px solid #e5e5e5; }
   .border-bottom { border-bottom: 1px solid #e5e5e5; }
