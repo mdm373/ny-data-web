@@ -26,9 +26,18 @@ const decodeToLatLng = (encodedPath: string) => {
         return {lat, lng}
     })  
 }
+
+export type BoundsType = Readonly<{
+    displayName: string,
+    typeName: string
+}>
+const config = getAppConfig()
+
+export const getBoundsTypes = async (): Promise<readonly BoundsType[]> => {
+    return (await axios.get<readonly BoundsType[]>(`${config.apiDomain}/bounds/types/`)).data
+}
 export const getBoundsPaths = async (boundsType: string): Promise<readonly Bounds[]> => {
-    const config = getAppConfig()
-    const response = await axios.get<ReadonlyArray<EncodedBounds>>(`${config.apiDomain}/bounds/${boundsType}`)
+    const response = await axios.get<ReadonlyArray<EncodedBounds>>(`${config.apiDomain}/bounds/paths/${boundsType}/`)
     return Object.values(response.data.reduce((agg, current) => {
         if(!agg[current.bound_id]) {
             agg[current.bound_id] = {

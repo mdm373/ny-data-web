@@ -1,24 +1,35 @@
 
 
 import * as React from "react";
-import { getBoundsPaths } from "./get-bounds-paths";
+import { getBoundsPaths, getBoundsTypes } from "./get-bounds-paths";
 import { DropDownOption, DropDown } from "../forms/drop-down";
 
-
+/*
 const boundryOptions: DropDownOption<string>[] = [
     {disaply: 'nypd precincts', payload: 'nypd-precincts'},
     {disaply: 'nypd sectors', payload: 'nypd-sectors'},
     {disaply: 'community districts', payload: 'community-districts'},
     {disaply: 'school districts', payload: 'school-districts'}
 ];
+*/
 
 type DisplayBounds = {polys: google.maps.Polygon[], marker: google.maps.Marker};
 
 export const BoundDrop: React.FC<{map: Promise<google.maps.Map>}> = (props) =>{
     const [currentBoundry, setBoundry] = React.useState('none');
+    const [currentOptions, setOptions] = React.useState([] as DropDownOption<string>[])
     const [currentDisplayedBounds, setDisplayedBounds] = React.useState([] as DisplayBounds[])
+    React.useEffect(() => {
+        (async() =>
+            setOptions( (await getBoundsTypes()).map((boundType) => ({
+                display: boundType.displayName,
+                payload: boundType.typeName,
+            })))
+        )()
+    }, [])
     let map: google.maps.Map = undefined;
     props.map.then((val) => map = val)
+    
     const handleClicked = async (boundType: string) => {
         setBoundry(boundType)
         currentDisplayedBounds.forEach(bound => {
@@ -44,7 +55,7 @@ export const BoundDrop: React.FC<{map: Promise<google.maps.Map>}> = (props) =>{
         })));
     }
     return <div>
-        <DropDown onChange={handleClicked} options={boundryOptions}></DropDown>
+        <DropDown onChange={handleClicked} options={currentOptions}></DropDown>
         <h3>current: {currentBoundry}</h3>
     </div>
 }
