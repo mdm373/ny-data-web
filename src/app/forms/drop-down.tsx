@@ -8,7 +8,6 @@ export type DropDownOption<T> = Readonly<{
 }>
 
 export const DropDown: React.FC<{onChange: OnDropDownChange<string>, options: DropDownOption<string>[]}> = (props) =>{
-    const onClick = (id: string) => () => props.onChange(id)
     const items = props.options.map((current) => {
         return <a className="dropdown-item" href="#" onClick={()=> props.onChange(current.payload)}>{current.display}</a>
     })

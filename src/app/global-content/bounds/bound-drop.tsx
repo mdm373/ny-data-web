@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { getBoundsPaths, getBoundsTypes } from "./get-bounds-paths";
-import { DropDownOption, DropDown } from "../forms/drop-down";
+import { DropDownOption, DropDown } from "@app/forms/drop-down";
 
 /*
 const boundryOptions: DropDownOption<string>[] = [
@@ -27,7 +27,7 @@ export const BoundDrop: React.FC<{map: Promise<google.maps.Map>}> = (props) =>{
             })))
         )()
     }, [])
-    let map: google.maps.Map = undefined;
+    let map: google.maps.Map|undefined = undefined;
     props.map.then((val) => map = val)
     
     const handleClicked = async (boundType: string) => {

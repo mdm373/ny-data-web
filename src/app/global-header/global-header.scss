@@ -1,0 +1,13 @@
+@import "bootstrap";
+
+.global-header-container {
+    @extend .m-1;
+    @extend .d-flex;
+    @extend .flex-row;
+
+    .social {
+        @extend .d-flex;
+        @extend .flex-column;
+        @extend .justify-content-center;
+    }
+}

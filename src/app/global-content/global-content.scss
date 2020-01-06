@@ -1,0 +1,8 @@
+@import "bootstrap";
+
+.global-content-container {
+    @extend .p-2;
+    @extend .d-flex;
+    @extend .flex-column;
+    @extend .flex-grow-1;
+}

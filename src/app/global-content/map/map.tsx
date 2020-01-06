@@ -1,8 +1,7 @@
 /// <reference path='./globals.d.ts'/> 
 
 import * as React from "react";
-import { getAppConfig } from "../config/config";
-import "./map.scss"
+import { getAppConfig } from "@app/config/config";
 import Helmet from "react-helmet";
 
 
@@ -10,7 +9,11 @@ export const getAppMap = (mapId: string): {AppMap: React.FC<{}>, map: Promise<go
     const getMap = (mapConfig: google.maps.MapOptions): {Map: React.FC<{apiKey: string}>, map: Promise<google.maps.Map>} => {
         const map = new Promise<google.maps.Map>((accept) => {
             const initMap = () => {
-                const map = new google.maps.Map(document.getElementById(mapId), mapConfig);
+                const mapElement = document.getElementById(mapId)
+                if(!mapElement) {
+                    throw new Error(`could not find map element '${mapId}'`)
+                }
+                const map = new google.maps.Map(mapElement, mapConfig);
                 accept(map)
             };
             (window as any).initMap = initMap;

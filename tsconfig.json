@@ -1,4 +1,5 @@
 {
+    "include": [".declarations.d.ts", "src"],
     "compilerOptions": {
         "outDir": "./.temp/tsc",
         "sourceMap": true,
@@ -7,6 +8,20 @@
         "target": "es5",
         "lib" : ["ES2015", "dom"],
         "jsx": "react",
-        "sourceRoot": "src"
+        "sourceRoot": "src",
+        "baseUrl": "src",
+        "paths":  {
+            "@app/*" : ["app/*"],
+            "@server/*": ["server/*"]
+        },
+        "noImplicitThis": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitUseStrict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noErrorTruncation": true,
+        "strictFunctionTypes": true,
+        "strictNullChecks": true
     }
 }

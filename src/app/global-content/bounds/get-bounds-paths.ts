@@ -1,5 +1,5 @@
 import {default as axios} from 'axios'
-import { getAppConfig } from '../config/config'
+import { getAppConfig } from '@app/config/config'
 import { decode } from '@mapbox/polyline'
 
 type EncodedBounds = Readonly<{

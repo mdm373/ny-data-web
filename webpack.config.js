@@ -1,4 +1,6 @@
+const path = require("path")
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const DefinePlugin = require('webpack').DefinePlugin;
 const secrets = require("./.secrets.json");
 
@@ -17,7 +19,10 @@ module.exports = {
     ],
     mode: "production",
     devtool: "source-map",
-    resolve: {extensions: [".ts", ".tsx", ".js", ".jsx", ".scss", ".css", ".svg"]},
+    resolve: {
+        extensions: [".ts", ".tsx", ".js", ".jsx", ".scss", ".css", ".svg"],
+        plugins: [new TsconfigPathsPlugin()]
+    },
     output: { path: __dirname + '/.temp/pack', filename: '[name].js'},
     module: {
         rules: [{

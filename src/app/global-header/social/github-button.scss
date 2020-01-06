@@ -1,0 +1,23 @@
+@import "bootstrap";
+
+.github-btn {
+    @extend .btn;
+    @extend .btn-primary;
+    @extend .d-flex;
+    @extend .flex-row;
+    @extend .text-light;
+    @extend .p-1;
+
+    .logo {
+        @extend .d-flex;
+        height:24px;
+        width: 24px;
+        filter: invert(1);
+    }
+
+    .text {
+        @extend .ml-1;
+        @extend .d-flex;
+        white-space: nowrap;
+    }
+}
