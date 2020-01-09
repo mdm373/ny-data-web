@@ -3,7 +3,7 @@ import "./global-content.scss"
 import { AppMap } from "./map/map"
 import { BoundDrop } from "./bounds/bound-drop"
 import { BoundsType, getBoundsPaths } from "./bounds/get-bounds-paths";
-import { BoundsToolTip, ToolTipState, ToolTipSpeed } from "./bounds/bounds-tooltip";
+import { BoundsToolTip, ToolTipState, ToolTipSpeed } from "./bounds/tooltip/element";
 
 type DisplayBounds = {polys: google.maps.Polygon[]};
 

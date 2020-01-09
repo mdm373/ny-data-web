@@ -1,4 +1,5 @@
 import * as React from 'react'
+import "./style.scss"
 
 export type ToolTipSpeed = 'fast'|'slow'
 export type ToolTipState = Readonly<{
@@ -15,5 +16,7 @@ export const BoundsToolTip: React.FC<{state: ToolTipState, offset?: number}> = (
         transition: `left ${speed}s, top ${speed}s`,
         transitionTimingFunction: "ease-out"
     }
-    return <div style={style} className="badge badge-info">{props.state.name}</div>
+    return <h3 style={style}>
+        <div className="bounds-tooltip">{props.state.name}</div>
+    </h3>
 }
