@@ -3,11 +3,18 @@ import "./global-content.scss"
 import { AppMap } from "./map/map"
 import { BoundDrop } from "./bounds/bound-drop"
 import { BoundsType, getBoundsPaths } from "./bounds/get-bounds-paths";
+import { BoundsToolTip, ToolTipState } from "./bounds/bounds-tooltip";
 
 type DisplayBounds = {polys: google.maps.Polygon[]};
 
+const defaultToolTopState: ToolTipState = {
+    name: "",
+    x: 0,
+    y: 0,
+}
 export const GlobalContent: React.FC<{}> = () => {
     const [currentDisplayedBounds, setDisplayedBounds] = React.useState([] as DisplayBounds[])
+    const [toolTipState, seetToolTipState] = React.useState(defaultToolTopState)
     const [currentMap, setCurrentMap] = React.useState(undefined as google.maps.Map|undefined)
     const onMapLoad = (map: google.maps.Map) => {
         setCurrentMap(map)
@@ -21,7 +28,10 @@ export const GlobalContent: React.FC<{}> = () => {
             return
         }
         const bounds = await getBoundsPaths(boundType.typeName);
-        setDisplayedBounds(bounds.map((bound) => { 
+        setDisplayedBounds(bounds.map((bound) => {
+            const handleMouseEvent = (event: google.maps.PolyMouseEvent) => {
+                seetToolTipState({name: bound.id, x: event.ya.clientX, y: event.ya.clientY})
+            }
             return {
                 polys: bound.areas.map((poly) => {
                     const googlePoly = new google.maps.Polygon({
@@ -33,15 +43,15 @@ export const GlobalContent: React.FC<{}> = () => {
                         fillColor: '#FF0000',
                         map: currentMap,
                     })
-                    googlePoly.addListener('click', () => {
-                        console.log(bound.id)
-                    })
+                    googlePoly.addListener('mousemove', handleMouseEvent)
+                    googlePoly.addListener('mousedown', handleMouseEvent)
                     return googlePoly
                 }),
             }
         }));
     }
     return <div className="global-content-container">
+            <BoundsToolTip state={toolTipState}></BoundsToolTip>
             <AppMap onMapLoad={onMapLoad} mapId="app-map-id"></AppMap>
             <div className="control-grid">
                 <div className="control-row">

@@ -1,6 +1,17 @@
 
 declare namespace google {
     namespace maps {
+        type PolyMouseEvent = Readonly<{
+            edge: number|undefined,
+            path: number|undefined,
+            vertex: number|undefined,
+            latLng: LatLng,
+            stop: () => void,
+            ya: Readonly<{
+                clientX: number,
+                clientY: number,
+            }>
+        }>
         type MarkerOptions = Partial<Readonly<{
             label: string,
             position: LatLng,
@@ -39,7 +50,7 @@ declare namespace google {
         class Polygon {
             constructor(options: PolygonOptions)
             setMap(map: google.maps.Map|null): void;
-            addListener(eventName: string, handler: () => void): void;
+            addListener(eventName: string, handler: (event: PolyMouseEvent) => void): void;
         }
         class Map {
             constructor(element: HTMLElement, options: MapOptions)
