@@ -1,7 +1,7 @@
 @import "bootstrap";
 
 .global-footer-container {
-    @extend .p-2;
+    @extend .pb-3;
     @extend .d-flex;
     @extend .flex-row;
     @extend .bg-primary;

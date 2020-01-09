@@ -5,4 +5,31 @@
     @extend .d-flex;
     @extend .flex-column;
     @extend .flex-grow-1;
+
+    .control-grid {
+        @extend .d-flex;
+        @extend .flex-column;
+        @extend .flex-grow-1;
+
+        .control-row {
+            @extend .d-flex;
+            @extend .flex-grow-1;
+            @extend .justify-content-center;
+            .control-cell {
+                @extend .d-flex;
+                @extend .flex-grow-1;
+                @extend .align-items-center;
+            }
+            .control-label {
+                width: 50%;
+                @extend .control-cell;
+                @extend .justify-content-end;
+            }
+            .control-value {
+                width: 50%;
+                @extend .control-cell;
+                @extend .justify-content-start;
+            }
+        }
+    }
 }

@@ -38,7 +38,8 @@ declare namespace google {
         }
         class Polygon {
             constructor(options: PolygonOptions)
-            setMap(map: google.maps.Map|null): void
+            setMap(map: google.maps.Map|null): void;
+            addListener(eventName: string, handler: () => void): void;
         }
         class Map {
             constructor(element: HTMLElement, options: MapOptions)
