@@ -8,8 +8,12 @@ declare namespace google {
             latLng: LatLng,
             stop: () => void,
             ya: Readonly<{
-                clientX: number,
-                clientY: number,
+                clientX?: number,
+                clientY?: number,
+                touches?: readonly Readonly<{
+                    clientX: number,
+                    clientY: number,
+                }>[] 
             }>
         }>
         type MarkerOptions = Partial<Readonly<{

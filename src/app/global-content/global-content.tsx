@@ -3,7 +3,7 @@ import "./global-content.scss"
 import { AppMap } from "./map/map"
 import { BoundDrop } from "./bounds/bound-drop"
 import { BoundsType, getBoundsPaths } from "./bounds/get-bounds-paths";
-import { BoundsToolTip, ToolTipState } from "./bounds/bounds-tooltip";
+import { BoundsToolTip, ToolTipState, ToolTipSpeed } from "./bounds/bounds-tooltip";
 
 type DisplayBounds = {polys: google.maps.Polygon[]};
 
@@ -11,10 +11,11 @@ const defaultToolTopState: ToolTipState = {
     name: "",
     x: 0,
     y: 0,
+    speed: 'fast'
 }
 export const GlobalContent: React.FC<{}> = () => {
     const [currentDisplayedBounds, setDisplayedBounds] = React.useState([] as DisplayBounds[])
-    const [toolTipState, seetToolTipState] = React.useState(defaultToolTopState)
+    const [toolTipState, setToolTipState] = React.useState(defaultToolTopState)
     const [currentMap, setCurrentMap] = React.useState(undefined as google.maps.Map|undefined)
     const onMapLoad = (map: google.maps.Map) => {
         setCurrentMap(map)
@@ -29,8 +30,19 @@ export const GlobalContent: React.FC<{}> = () => {
         }
         const bounds = await getBoundsPaths(boundType.typeName);
         setDisplayedBounds(bounds.map((bound) => {
-            const handleMouseEvent = (event: google.maps.PolyMouseEvent) => {
-                seetToolTipState({name: bound.id, x: event.ya.clientX, y: event.ya.clientY})
+            const getMouseEventHandler = (speed: ToolTipSpeed) => {
+                return (event: google.maps.PolyMouseEvent) => {
+                    if(event.ya.touches && event.ya.touches[0]) {
+                        setToolTipState({
+                            name: bound.id,
+                            x: event.ya.touches[0].clientX,
+                            y: event.ya.touches[0].clientY,
+                            speed
+                        })
+                    } else if(event.ya.clientX !== undefined && event.ya.clientY !== undefined) {
+                        setToolTipState({name: bound.id, x: event.ya.clientX, y: event.ya.clientY, speed})
+                    }
+                }
             }
             return {
                 polys: bound.areas.map((poly) => {
@@ -43,8 +55,8 @@ export const GlobalContent: React.FC<{}> = () => {
                         fillColor: '#FF0000',
                         map: currentMap,
                     })
-                    googlePoly.addListener('mousemove', handleMouseEvent)
-                    googlePoly.addListener('mousedown', handleMouseEvent)
+                    googlePoly.addListener('mousemove', getMouseEventHandler('fast'))
+                    googlePoly.addListener('mousedown', getMouseEventHandler('slow'))
                     return googlePoly
                 }),
             }
