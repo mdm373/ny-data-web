@@ -58,6 +58,7 @@ declare namespace google {
         }
         class Map {
             constructor(element: HTMLElement, options: MapOptions)
+            addListener(eventName: string, handler: () => void): void
         }
         class Marker {
             constructor(options: MarkerOptions)

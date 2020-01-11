@@ -14,10 +14,15 @@ const defaultToolTopState: ToolTipState = {
     speed: 'fast',
     visible: false,
 }
+
+const hideToolTip = (state: ToolTipState) => ({...state, visible: false})
 export const GlobalContent: React.FC<{}> = () => {
     const [currentDisplayedBounds, setDisplayedBounds] = React.useState([] as DisplayBounds[])
     const [toolTipState, setToolTipState] = React.useState(defaultToolTopState)
     const [currentMap, setCurrentMap] = React.useState(undefined as google.maps.Map|undefined)
+    currentMap?.addListener('dragged', () => {
+        setToolTipState(hideToolTip)
+    })
     const onMapLoad = (map: google.maps.Map) => {
         setCurrentMap(map)
     }
@@ -25,6 +30,7 @@ export const GlobalContent: React.FC<{}> = () => {
         currentDisplayedBounds.forEach(bound => {
             bound.polys.forEach(poly => poly.setMap(null))
         })
+        setToolTipState(hideToolTip)
         if(!boundType) {
             setDisplayedBounds([])
             return
@@ -60,7 +66,7 @@ export const GlobalContent: React.FC<{}> = () => {
                     googlePoly.addListener('mousemove', getMouseEventHandler('fast'))
                     googlePoly.addListener('mousedown', getMouseEventHandler('slow'))
                     googlePoly.addListener('mouseout', () => {
-                        setToolTipState(state => ({...state, visible: false}))    
+                        setToolTipState(hideToolTip)    
                     })
                     return googlePoly
                 }),
