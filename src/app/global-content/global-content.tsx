@@ -3,7 +3,7 @@ import "./global-content.scss"
 import { AppMap } from "./map/map"
 import { BoundDrop } from "./bounds/bound-drop"
 import { BoundsType, getBoundsPaths } from "./bounds/get-bounds-paths";
-import { BoundsToolTip, ToolTipState, ToolTipSpeed } from "./bounds/tooltip/element";
+import { BoundsToolTip, ToolTipState, ToolTipSpeed } from "./bounds/tooltip/tooltip";
 
 type DisplayBounds = {polys: google.maps.Polygon[]};
 
@@ -11,7 +11,8 @@ const defaultToolTopState: ToolTipState = {
     name: "",
     x: 0,
     y: 0,
-    speed: 'fast'
+    speed: 'fast',
+    visible: false,
 }
 export const GlobalContent: React.FC<{}> = () => {
     const [currentDisplayedBounds, setDisplayedBounds] = React.useState([] as DisplayBounds[])
@@ -37,10 +38,11 @@ export const GlobalContent: React.FC<{}> = () => {
                             name: bound.id,
                             x: event.ya.touches[0].clientX,
                             y: event.ya.touches[0].clientY,
-                            speed
+                            speed,
+                            visible: true
                         })
                     } else if(event.ya.clientX !== undefined && event.ya.clientY !== undefined) {
-                        setToolTipState({name: bound.id, x: event.ya.clientX, y: event.ya.clientY, speed})
+                        setToolTipState({name: bound.id, x: event.ya.clientX, y: event.ya.clientY, speed, visible: true})
                     }
                 }
             }
@@ -57,6 +59,9 @@ export const GlobalContent: React.FC<{}> = () => {
                     })
                     googlePoly.addListener('mousemove', getMouseEventHandler('fast'))
                     googlePoly.addListener('mousedown', getMouseEventHandler('slow'))
+                    googlePoly.addListener('mouseout', () => {
+                        setToolTipState(state => ({...state, visible: false}))    
+                    })
                     return googlePoly
                 }),
             }

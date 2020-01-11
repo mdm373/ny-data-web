@@ -7,7 +7,7 @@
     "dev": "tsc -w",
     "clean": "sh ./scripts/clean.sh",
     "wait-for-serve": "wait-on ./.temp/tsc/server/index.js",
-    "serve": "npm run wait-for-serve && nodemon --watch ./.temp/tsc ./.temp/tsc/server",
+    "serve": "npm run wait-for-serve && nodemon ./.temp/tsc/server --watch ./.temp/tsc/server",
     "copy:normalize": "mkdir -p ./.temp/pack",
     "copy:index": "cp index.html ./.temp/pack/index.html",
     "copy:bootstrap": "cp ./node_modules/bootstrap/dist/js/bootstrap.min.js ./.temp/pack/bootstrap.min.js",

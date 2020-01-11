@@ -1,0 +1,10 @@
+
+@import "bootstrap";
+
+.bounds-tooltip-container {
+    pointer-events: none;
+    .tooltip-text {
+        @extend .badge;
+        @extend .badge-info;
+    }
+}
