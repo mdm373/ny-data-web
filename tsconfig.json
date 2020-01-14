@@ -1,5 +1,5 @@
 {
-    "include": [".declarations.d.ts", "src"],
+    "include": [".declarations.d.ts", "src/generated/custom.d.ts", "src"],
     "compilerOptions": {
         "outDir": "./.temp/tsc",
         "sourceMap": true,
@@ -12,14 +12,15 @@
         "baseUrl": "src",
         "paths":  {
             "@app/*" : ["app/*"],
-            "@server/*": ["server/*"]
+            "@server/*": ["server/*"],
+            "@gen/*": ["generated/*"]
         },
         "noImplicitThis": true,
         "noImplicitReturns": true,
         "noFallthroughCasesInSwitch": true,
         "noImplicitUseStrict": true,
         "noUnusedLocals": true,
-        "noUnusedParameters": true,
+        "noUnusedParameters": false,
         "noErrorTruncation": true,
         "strictFunctionTypes": true,
         "strictNullChecks": true

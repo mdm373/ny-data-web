@@ -2,9 +2,9 @@ import * as React from "react"
 import "./global-content.scss"
 import { AppMap } from "./map/map"
 import { BoundDrop } from "./bounds/bound-drop"
-import { BoundsType, getBoundsPaths } from "./bounds/get-bounds-paths";
+import { getBoundsPaths } from "./bounds/get-bounds-paths";
 import { BoundsToolTip, ToolTipState, ToolTipSpeed } from "./bounds/tooltip/tooltip";
-
+import {BoundType} from '@gen/nydata-api'
 type DisplayBounds = {polys: google.maps.Polygon[]};
 
 const defaultToolTopState: ToolTipState = {
@@ -16,6 +16,7 @@ const defaultToolTopState: ToolTipState = {
 }
 
 const hideToolTip = (state: ToolTipState) => ({...state, visible: false})
+
 export const GlobalContent: React.FC<{}> = () => {
     const [currentDisplayedBounds, setDisplayedBounds] = React.useState([] as DisplayBounds[])
     const [toolTipState, setToolTipState] = React.useState(defaultToolTopState)
@@ -26,7 +27,7 @@ export const GlobalContent: React.FC<{}> = () => {
     const onMapLoad = (map: google.maps.Map) => {
         setCurrentMap(map)
     }
-    const onDropDownChange = async (boundType: BoundsType) => {
+    const onDropDownChange = async (boundType: BoundType) => {
         currentDisplayedBounds.forEach(bound => {
             bound.polys.forEach(poly => poly.setMap(null))
         })

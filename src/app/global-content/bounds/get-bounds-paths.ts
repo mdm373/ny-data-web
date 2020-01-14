@@ -1,24 +1,20 @@
-import {default as axios} from 'axios'
-import { getAppConfig } from '@app/config/config'
 import { decode } from '@mapbox/polyline'
+import {BoundsApi, BoundType} from "@gen/nydata-api"
+import {getAppConfig} from "@app/config/config"
 
-type EncodedBounds = Readonly<{
-    id: number
-    bound_id: string
-    bounds: string
-    centroid: string
-    
-}>
-interface ImmutableBounds {
+const config = getAppConfig()
+const boundsApi = new BoundsApi({basePath: config.apiDomain})
+
+interface BoundsImmutable {
     readonly areas: readonly google.maps.LatLng[][]
 }
-interface MutableBounds {
+interface BoundsMutable {
     id: string,
     centroid: google.maps.LatLng,
     areas: google.maps.LatLng[][]
 }
 
-export type Bounds = Readonly<Omit<MutableBounds, 'areas'>&ImmutableBounds>
+export type Bounds = Readonly<Omit<BoundsMutable, 'areas'>&BoundsImmutable>
 
 const decodeToLatLng = (encodedPath: string) => {
     return decode(encodedPath).map((cord): google.maps.LatLng => {
@@ -27,27 +23,23 @@ const decodeToLatLng = (encodedPath: string) => {
     })  
 }
 
-export type BoundsType = Readonly<{
-    displayName: string,
-    typeName: string
-}>
-const config = getAppConfig()
+export type BoundTypeImmutable = Readonly<BoundType>
 
-export const getBoundsTypes = async (): Promise<readonly BoundsType[]> => {
-    return (await axios.get<readonly BoundsType[]>(`${config.apiDomain}/bounds/types/`)).data
+export const getBoundsTypes = async (): Promise<readonly BoundTypeImmutable[]> => {
+    return (await boundsApi.listBoundsTypes()).items
 }
 export const getBoundsPaths = async (boundsType: string): Promise<readonly Bounds[]> => {
-    const response = await axios.get<ReadonlyArray<EncodedBounds>>(`${config.apiDomain}/bounds/paths/${boundsType}/`)
-    return Object.values(response.data.reduce((agg, current) => {
-        if(!agg[current.bound_id]) {
-            agg[current.bound_id] = {
-                id: current.bound_id,
+    const response = await boundsApi.listBoundsPaths(boundsType)
+    return Object.values(response.items.reduce((agg, current) => {
+        if(!agg[current.boundId]) {
+            agg[current.boundId] = {
+                id: current.boundId,
                 centroid: decodeToLatLng(current.centroid,)[0],
                 areas: [],
             }
         }
-        agg[current.bound_id].areas.push(decodeToLatLng(current.bounds))
+        agg[current.boundId].areas.push(decodeToLatLng(current.bounds))
         
         return agg
-    }, {} as {[key: string]: MutableBounds}))
+    }, {} as {[key: string]: BoundsMutable}))
 }

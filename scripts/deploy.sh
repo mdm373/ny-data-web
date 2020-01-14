@@ -1,3 +1,4 @@
+set -e
 S3_BUCKET=$(cat ./.secrets.json | jq -r '.S3_BUCKET')
 sh ./scripts/clean.sh
 sh ./scripts/build.sh

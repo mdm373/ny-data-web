@@ -1,10 +1,11 @@
 
 
 import * as React from "react";
-import { getBoundsTypes, BoundsType } from "./get-bounds-paths";
+import { getBoundsTypes } from "./get-bounds-paths";
 import { DropDownOption, DropDown } from "@app/forms/drop-down";
+import { BoundType } from "@gen/nydata-api";
 
-type BoundsSelectionChangeHandler = (bounds: BoundsType) => void
+type BoundsSelectionChangeHandler = (bounds: BoundType) => void
 
 const defaultOption: DropDownOption<string> = {
     display: "Select One",
@@ -12,7 +13,7 @@ const defaultOption: DropDownOption<string> = {
 }
 const defaultState: Readonly<{
     options: readonly DropDownOption<string>[], 
-    types: {readonly [key:string] : BoundsType},
+    types: {readonly [key:string] : BoundType},
 }> = {
     options: [defaultOption],
     types : {}
@@ -32,7 +33,7 @@ export const BoundDrop: React.FC<{
             const types = boundsTypes.reduce((agg, current) => {
                 agg[current.typeName] = current;
                 return agg
-            }, {} as {[key:string] : BoundsType})
+            }, {} as {[key:string] : BoundType})
             setState({options, types})
         }
         )()

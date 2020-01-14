@@ -15,9 +15,11 @@
     "copy:popper": "cp ./node_modules/popper.js/dist/umd/popper.min.js ./.temp/pack/popper.min.js",
     "copy:fav-icon": "cp ./favicon.ico ./.temp/pack/favicon.ico",
     "copy": "run-s copy:*",
+    "swagger-gen:local" : "sh ./scripts/swagger-gen.sh .APP_CONFIG.LOCAL.apiDomain",
+    "swagger-gen:hosted" : "sh ./scripts/swagger-gen.sh .APP_CONFIG.HOSTED.apiDomain",
     "pack-dev": "npm run copy && APP_CONFIG_ENV=local webpack --watch",
-    "serve-dev": "npm run clean && run-p -r dev pack-dev serve",
-    "deploy": "sh ./scripts/deploy.sh"
+    "serve-dev": "npm run clean && npm run swagger-gen:local && run-p -r dev pack-dev serve",
+    "deploy": "npm run swagger-gen:hosted && sh ./scripts/deploy.sh"
   },
   "repository": {
     "type": "git",
@@ -60,6 +62,7 @@
     "bootstrap": "^4.4.1",
     "jquery": "^3.4.1",
     "popper.js": "^1.16.0",
+    "portable-fetch": "^3.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-helmet": "^5.2.1"
