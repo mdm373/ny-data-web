@@ -7,7 +7,7 @@
     "dev": "tsc -w",
     "clean": "sh ./scripts/clean.sh",
     "wait-for-serve": "wait-on ./.temp/tsc/server/index.js",
-    "serve": "npm run wait-for-serve && nodemon ./.temp/tsc/server --watch ./.temp/tsc/server",
+    "serve": "tsc && node ./.temp/tsc/server",
     "copy:normalize": "mkdir -p ./.temp/pack",
     "copy:index": "cp index.html ./.temp/pack/index.html",
     "copy:bootstrap": "cp ./node_modules/bootstrap/dist/js/bootstrap.min.js ./.temp/pack/bootstrap.min.js",
@@ -15,10 +15,10 @@
     "copy:popper": "cp ./node_modules/popper.js/dist/umd/popper.min.js ./.temp/pack/popper.min.js",
     "copy:fav-icon": "cp ./favicon.ico ./.temp/pack/favicon.ico",
     "copy": "run-s copy:*",
-    "swagger-gen:local" : "sh ./scripts/swagger-gen.sh .APP_CONFIG.LOCAL.apiDomain",
-    "swagger-gen:hosted" : "sh ./scripts/swagger-gen.sh .APP_CONFIG.HOSTED.apiDomain",
+    "swagger-gen:local": "sh ./scripts/swagger-gen.sh .APP_CONFIG.LOCAL.apiDomain",
+    "swagger-gen:hosted": "sh ./scripts/swagger-gen.sh .APP_CONFIG.HOSTED.apiDomain",
     "pack-dev": "npm run copy && APP_CONFIG_ENV=local webpack --watch",
-    "serve-dev": "npm run clean && npm run swagger-gen:local && run-p -r dev pack-dev serve",
+    "serve-dev": "npm run clean && npm run swagger-gen:local && run-p -r pack-dev serve",
     "deploy": "npm run swagger-gen:hosted && sh ./scripts/deploy.sh"
   },
   "repository": {
@@ -37,8 +37,9 @@
     "@types/react": "^16.9.16",
     "@types/react-dom": "^16.9.4",
     "@types/react-helmet": "^5.0.14",
+    "@types/react-redux": "^7.1.6",
     "babel-loader": "^8.0.6",
-    "css-loader": "^3.3.0",
+    "css-loader": "^3.4.2",
     "express": "^4.17.1",
     "file-loader": "^5.0.2",
     "mini-css-extract-plugin": "^0.8.0",
@@ -58,13 +59,18 @@
   },
   "dependencies": {
     "@mapbox/polyline": "^1.1.0",
-    "axios": "^0.19.0",
+    "@types/react-datepicker": "^2.10.0",
     "bootstrap": "^4.4.1",
+    "date-fns": "^2.9.0",
     "jquery": "^3.4.1",
     "popper.js": "^1.16.0",
     "portable-fetch": "^3.0.0",
     "react": "^16.12.0",
+    "react-datepicker": "^2.11.0",
     "react-dom": "^16.12.0",
-    "react-helmet": "^5.2.1"
+    "react-helmet": "^5.2.1",
+    "react-redux": "^7.1.3",
+    "redux": "^4.0.5",
+    "rxjs": "^6.5.4"
   }
 }

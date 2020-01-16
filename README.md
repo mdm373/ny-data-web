@@ -13,7 +13,7 @@ See [ingest](https://github.com/mdm373/ny-data-ingest) and [api](https://github.
 * for development
   * jq
   * node / npm
-  * java (swagger code gen)
+  * java (swagger code generation)
 
  ## Install
  ```

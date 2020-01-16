@@ -26,6 +26,10 @@ module.exports = {
     output: { path: __dirname + '/.temp/pack', filename: '[name].js'},
     module: {
         rules: [{
+            test: /\.css$/,
+            use: ['style-loader', 'css-loader'],
+        },
+        {
             test: /\.scss$/,
             use: [{
                 loader: MiniCssExtractPlugin.loader

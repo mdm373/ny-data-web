@@ -4,44 +4,41 @@ import * as React from "react";
 import { getBoundsTypes } from "./get-bounds-paths";
 import { DropDownOption, DropDown } from "@app/forms/drop-down";
 import { BoundType } from "@gen/nydata-api";
+import { useSelector, useDispatch } from "react-redux";
+import { AppState, FooAction } from "@app/store";
 
-type BoundsSelectionChangeHandler = (bounds: BoundType) => void
+export type BoundDropChangeHandler = (bounds: BoundType|undefined) => void
 
-const defaultOption: DropDownOption<string> = {
+export const nilBoundType: BoundType = {displayName: "nil", typeName: "nil"}
+const defaultOption: DropDownOption<BoundType> = {
     display: "Select One",
-    payload: "nil",
+    payload: nilBoundType
 }
-const defaultState: Readonly<{
-    options: readonly DropDownOption<string>[], 
-    types: {readonly [key:string] : BoundType},
-}> = {
-    options: [defaultOption],
-    types : {}
+
+const boundTypeSelector = (state: AppState) => {
+    return state.boundType
 }
-export const BoundDrop: React.FC<{
-    onChange: BoundsSelectionChangeHandler
-}> = (props) =>{
-    const [currentState, setState] = React.useState(defaultState)
-    
+export const BoundDrop: React.FC<{}> = () =>{
+    const [boundTypes, setBoundTypes] = React.useState([] as readonly BoundType[])
+    const boundType = useSelector(boundTypeSelector)
     React.useEffect(() => {
         (async() => {
-            const boundsTypes = await getBoundsTypes()
-            const options = currentState.options.concat(boundsTypes.map((boundType) => ({
-                display: boundType.displayName,
-                payload: boundType.typeName,
-            })))
-            const types = boundsTypes.reduce((agg, current) => {
-                agg[current.typeName] = current;
-                return agg
-            }, {} as {[key:string] : BoundType})
-            setState({options, types})
+            const val = await getBoundsTypes()
+            setBoundTypes(val)
         }
         )()
     }, [])
-    const onChange = (selected: string) => {
-        props.onChange(currentState.types[selected])
+    const dispatch = useDispatch<(a: FooAction) => void>()
+    const onChange = (newType: BoundType|undefined) => {
+        if(newType) {
+            dispatch({type:'bob', payload: {boundType: newType}})
+        }
     }
+    const options: readonly DropDownOption<BoundType>[] = [defaultOption].concat(boundTypes.map( (boundType) => ({
+        display: boundType.displayName,
+        payload: boundType
+    })))
     return <div>
-        <DropDown onChange={onChange} options={currentState.options}></DropDown>
+        <DropDown options={options} value={boundType} onChange={onChange}></DropDown>
     </div>
 }
