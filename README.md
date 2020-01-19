@@ -4,7 +4,7 @@
 See [ingest](https://github.com/mdm373/ny-data-ingest) and [api](https://github.com/mdm373/ny-data-api) for data source details
 
 ## Tooling
- * source: webpack, typescript, react, scss, bootstrap, swagger-codegen
+ * source: webpack, typescript, react, react-redux, rxjs, sass, bootstrap, swagger-codegen
  * infra: s3 / cloudformation (serverless)
 
 ## Pre-Requisits
