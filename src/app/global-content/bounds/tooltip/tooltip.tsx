@@ -1,22 +1,10 @@
 import * as React from 'react'
 import "./tooltip.scss"
-import { useSelector } from 'react-redux'
-import { AppState } from '@app/store'
+import { toolTipFeature } from './tooltip-state'
 
-export type ToolTipSpeed = 'fast'|'slow'
-export type ToolTipState = Readonly<{
-    x: number, y: number, name: string, speed: ToolTipSpeed, visible: boolean
-}>
-export const defaultToolTipState: ToolTipState = {
-    name: "",
-    x: 0,
-    y: 0,
-    speed: 'fast',
-    visible: false,
-}
 
 export const BoundsToolTip: React.FC<{offset?: number}> = (props) => {
-    const state = useSelector<AppState, ToolTipState>((state) => state.toolTipState)
+    const state = toolTipFeature.useState()
     const left = (props.offset  === undefined ? 12 : props.offset) + state.x
     const followStyle: React.CSSProperties = {
         left,

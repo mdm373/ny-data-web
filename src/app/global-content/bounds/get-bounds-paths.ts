@@ -2,6 +2,7 @@ import { decode } from '@mapbox/polyline'
 import {BoundsApi, BoundType} from "@gen/nydata-api"
 import {getAppConfig} from "@app/config/config"
 
+
 const config = getAppConfig()
 const boundsApi = new BoundsApi({basePath: config.apiDomain})
 
@@ -14,7 +15,7 @@ interface BoundsMutable {
     areas: google.maps.LatLng[][]
 }
 
-export type Bounds = Readonly<Omit<BoundsMutable, 'areas'>&BoundsImmutable>
+export type Bounds = Readonly<Omit<BoundsMutable, 'areas'> & BoundsImmutable>
 
 const decodeToLatLng = (encodedPath: string) => {
     return decode(encodedPath).map((cord): google.maps.LatLng => {
@@ -25,9 +26,6 @@ const decodeToLatLng = (encodedPath: string) => {
 
 export type BoundTypeImmutable = Readonly<BoundType>
 
-export const getBoundsTypes = async (): Promise<readonly BoundTypeImmutable[]> => {
-    return (await boundsApi.listBoundsTypes()).items
-}
 export const getBoundsPaths = async (boundsType: string): Promise<readonly Bounds[]> => {
     const response = await boundsApi.listBoundsPaths(boundsType)
     return Object.values(response.items.reduce((agg, current) => {

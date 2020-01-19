@@ -13,7 +13,9 @@
         "paths":  {
             "@app/*" : ["app/*"],
             "@server/*": ["server/*"],
-            "@gen/*": ["generated/*"]
+            "@gen/*": ["generated/*"],
+            "@redux/*": ["redux/*"],
+            "@google-maps/*" : ["google-maps/*"]
         },
         "noImplicitThis": true,
         "noImplicitReturns": true,

@@ -5,19 +5,19 @@ import * as ReactDOM from "react-dom";
 import { GlobalHeader } from './global-header/global-header';
 import { GlobalFooter } from './global-footer/global-footer';
 import { GlobalContent } from './global-content/global-content';
-import { getDisplayBoundsHandler } from './global-content/bounds/displayed-bounds';
 import {Provider} from "react-redux"
-import { store} from './store'
-import {map} from 'rxjs/operators'
+import { getAppStore } from '@redux/store';
+import { boundDropFeature } from './global-content/bounds/bound-drop/bound-drop.feature';
+import { toolTipFeature } from './global-content/bounds/tooltip/tooltip-state';
+import { appMapFeature } from './global-content/app-map/app-map.feature';
+
+const store = getAppStore([
+    boundDropFeature.subStore,
+    toolTipFeature.subStore,
+    appMapFeature.subStore,
+]);
 
 (async () => {
-    
-    const onMapLoad = (aMap: google.maps.Map) => {
-        const {toolTipState$} = getDisplayBoundsHandler(aMap, store.toObservable.pipe(map(state => state.boundType)))
-        toolTipState$.subscribe((toolTipState) => {
-            store.dispatch({type: 'tt', payload: {toolTipState}})
-        })
-    }
     try {
         ReactDOM.render(<div className="view-port">
             <Provider store={store}>
@@ -25,7 +25,7 @@ import {map} from 'rxjs/operators'
                     <GlobalHeader></GlobalHeader>
                 </div>
                 <div className="main-content-port">
-                    <GlobalContent onMapLoad={onMapLoad}></GlobalContent>
+                    <GlobalContent></GlobalContent>
                 </div>
                 <div className="main-bottom-port">
                     <GlobalFooter></GlobalFooter>
