@@ -14,7 +14,7 @@
             "@app/*" : ["app/*"],
             "@server/*": ["server/*"],
             "@gen/*": ["generated/*"],
-            "@redux/*": ["redux/*"],
+            "@reactive-redux": ["reactive-redux"],
             "@google-maps/*" : ["google-maps/*"]
         },
         "noImplicitThis": true,

@@ -5,6 +5,10 @@ declare namespace google {
             x: number,
             y: number
         }>
+        type LatLngBounds = Readonly<{
+            getNorthEast: () => LatLng,
+            getSouthWest: () => LatLng
+        }>
         type Projection = Readonly<{
             fromPointToLatLng: (point: Point, noWrap?: boolean) => LatLng
             fromLatLngToPoint: (latLng: LatLng, point?: Point) => Point|undefined
@@ -30,7 +34,7 @@ declare namespace google {
             map: Map,
         }>>
         type PolygonOptions = Partial<Readonly<{
-            path: LatLng[] | LatLng[][],
+            path: LatLng[] | LatLngLiteral[],
             geodesic: boolean,
             strokeColor: string,
             strokeOpacity: number,
@@ -40,11 +44,15 @@ declare namespace google {
             map: Map,
         }>>
         type LatLng = Readonly<{
-            lat: number;
-            lng: number;
+            lat: () => number;
+            lng: () => number;
+        }>
+        type LatLngLiteral = Readonly<{
+            lat: number,
+            lng: number
         }>
         type MapOptions = Partial<Readonly<{
-            center: LatLng;
+            center: LatLng|LatLngLiteral;
             zoom: number;
         }>>
         
@@ -60,6 +68,7 @@ declare namespace google {
             constructor(element: HTMLElement, options: MapOptions)
             addListener(eventName: string, handler: () => void): void
             getProjection: () => Projection
+            getBounds: () => LatLngBounds
         }
         class Marker {
             constructor(options: MarkerOptions)

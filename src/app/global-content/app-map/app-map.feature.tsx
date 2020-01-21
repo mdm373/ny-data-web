@@ -1,8 +1,9 @@
-import {newFeature} from "@redux/store"
+import {feature} from "@reactive-redux"
 
 export type AppMapState = Readonly<{
   map: google.maps.Map|undefined
   polys: readonly google.maps.Polygon[];
+  mapId: string,
 }>
 
-export const appMapFeature = newFeature<AppMapState>({map:undefined, polys: []})
+export const appMapFeature = feature.create<AppMapState>({mapId: 'appMapEle', map:undefined, polys: []})

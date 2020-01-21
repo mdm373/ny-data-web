@@ -6,12 +6,12 @@ import { GlobalHeader } from './global-header/global-header';
 import { GlobalFooter } from './global-footer/global-footer';
 import { GlobalContent } from './global-content/global-content';
 import {Provider} from "react-redux"
-import { getAppStore } from '@redux/store';
+import { store as reactiveStore } from '@reactive-redux';
 import { boundDropFeature } from './global-content/bounds/bound-drop/bound-drop.feature';
-import { toolTipFeature } from './global-content/bounds/tooltip/tooltip-state';
+import { toolTipFeature } from './global-content/bounds/tooltip/tooltip.feature';
 import { appMapFeature } from './global-content/app-map/app-map.feature';
 
-const store = getAppStore([
+const store = reactiveStore.getAppStore([
     boundDropFeature.subStore,
     toolTipFeature.subStore,
     appMapFeature.subStore,

@@ -7,18 +7,18 @@ const config = getAppConfig()
 const boundsApi = new BoundsApi({basePath: config.apiDomain})
 
 interface BoundsImmutable {
-    readonly areas: readonly google.maps.LatLng[][]
+    readonly areas: readonly google.maps.LatLngLiteral[][]
 }
 interface BoundsMutable {
     id: string,
-    centroid: google.maps.LatLng,
-    areas: google.maps.LatLng[][]
+    centroid: google.maps.LatLngLiteral,
+    areas: google.maps.LatLngLiteral[][]
 }
 
 export type Bounds = Readonly<Omit<BoundsMutable, 'areas'> & BoundsImmutable>
 
 const decodeToLatLng = (encodedPath: string) => {
-    return decode(encodedPath).map((cord): google.maps.LatLng => {
+    return decode(encodedPath).map((cord): google.maps.LatLngLiteral => {
         const [lat, lng] = cord
         return {lat, lng}
     })  

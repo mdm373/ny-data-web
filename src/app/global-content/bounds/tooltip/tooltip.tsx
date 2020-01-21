@@ -1,6 +1,6 @@
 import * as React from 'react'
 import "./tooltip.scss"
-import { toolTipFeature } from './tooltip-state'
+import { toolTipFeature } from './tooltip.feature'
 
 
 export const BoundsToolTip: React.FC<{offset?: number}> = (props) => {

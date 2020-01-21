@@ -6,7 +6,8 @@ import { appMapFeature } from './app-map.feature'
 
 export const AppMap: React.FC<{}> = () => {
     const dispatch = useDispatch();
-    return <GoogleMap apiKey={getAppConfig().mapsApiKey} mapId="AppMapMap"
+    const state = appMapFeature.useState()
+    return <GoogleMap apiKey={getAppConfig().mapsApiKey} mapId={state.mapId}
         onMapLoad={(map) => dispatch(appMapFeature.newUpdate({map}))
     }>
     </GoogleMap>
