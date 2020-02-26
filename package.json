@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "install": "cp -n .env.shadow .env || cp -n .env.shadow .env.hosted || true",
     "dev": "tsc -w",
     "clean": "sh ./scripts/clean.sh",
     "wait-for-serve": "wait-on ./.temp/tsc/server/index.js",
