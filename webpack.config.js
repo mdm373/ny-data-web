@@ -2,11 +2,13 @@ const path = require("path")
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const DefinePlugin = require('webpack').DefinePlugin;
-const secrets = require("./.secrets.json");
 
-const appConfigEnv = (process.env.APP_CONFIG_ENV || "").toUpperCase();
-const appConfig = secrets.APP_CONFIG[appConfigEnv] || secrets.APP_CONFIG.HOSTED
-console.log(`packing with config: ${JSON.stringify(appConfig)}`)
+const appConfig = JSON.stringify({
+    apiDomain: process.env.NY_WEB_API_HOST,
+    mapsApiKey: process.env.NY_WEB_MAPS_API_KEY,
+});
+
+console.log(`packing with config: ${appConfig}`)
 module.exports = {
     entry: './src/app/app',
     watch: false,
@@ -15,7 +17,7 @@ module.exports = {
     },
     plugins: [
         new MiniCssExtractPlugin({filename: "[name].css", chunkFilename: "[id].css"}),
-        new DefinePlugin({ appConfig: JSON.stringify(appConfig)})
+        new DefinePlugin({ appConfig })
     ],
     mode: "production",
     devtool: "source-map",

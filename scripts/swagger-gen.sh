@@ -1,7 +1,7 @@
 set -e
 mkdir -p ./.lib/
 mkdir -p ./.temp/swagger
-SPEC_FILE=$(cat ./.secrets.json | jq -r $1)/swagger-ui/swagger.yaml
+SPEC_FILE=$NY_WEB_API_HOST/swagger-ui/swagger.yaml
 rm -rf ./src/generated
 echo "pulling swagger spec from: $SPEC_FILE"
 curl $SPEC_FILE -o ./.temp/swagger/nydata-spec.yaml

@@ -15,11 +15,11 @@
     "copy:popper": "cp ./node_modules/popper.js/dist/umd/popper.min.js ./.temp/pack/popper.min.js",
     "copy:fav-icon": "cp ./favicon.ico ./.temp/pack/favicon.ico",
     "copy": "run-s copy:*",
-    "swagger-gen:local": "sh ./scripts/swagger-gen.sh .APP_CONFIG.LOCAL.apiDomain",
-    "swagger-gen:hosted": "sh ./scripts/swagger-gen.sh .APP_CONFIG.HOSTED.apiDomain",
-    "pack-dev": "npm run copy && APP_CONFIG_ENV=local webpack --watch",
+    "swagger-gen:local": "dotenv -- sh ./scripts/swagger-gen.sh",
+    "swagger-gen:hosted": "dotenv -e .env.hosted -- sh ./scripts/swagger-gen.sh",
+    "pack-dev": "npm run copy && dotenv -- webpack --watch",
     "serve-dev": "npm run clean && npm run swagger-gen:local && run-p -r pack-dev serve",
-    "deploy": "npm run swagger-gen:hosted && sh ./scripts/deploy.sh"
+    "deploy": "npm run swagger-gen:hosted && dotenv -e .env.hosted -- sh ./scripts/deploy.sh"
   },
   "repository": {
     "type": "git",
@@ -40,6 +40,7 @@
     "@types/react-redux": "^7.1.6",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.4.2",
+    "dotenv-cli": "^3.1.0",
     "express": "^4.17.1",
     "file-loader": "^5.0.2",
     "mini-css-extract-plugin": "^0.8.0",

@@ -1,5 +1,9 @@
 set -e
-S3_BUCKET=$(cat ./.secrets.json | jq -r '.S3_BUCKET')
+echo "deplyoment started"
+echo "\tcleaning..."
 sh ./scripts/clean.sh
+echo "\tbuilding..."
 sh ./scripts/build.sh
-aws s3 sync ./.temp/pack s3://$S3_BUCKET --delete --acl public-read --cache-control max-age=0
+echo "\tsyncing..."
+aws s3 sync ./.temp/pack s3://$NY_WEB_S3_BUCKET --delete --acl public-read --cache-control max-age=0
+echo "deployment finished"

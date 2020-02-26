@@ -7,3 +7,5 @@ package-lock.json
 .secrets.json
 src/generated/
 .lib/
+.env.hosted
+.env
