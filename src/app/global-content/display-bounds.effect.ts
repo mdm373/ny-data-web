@@ -1,14 +1,17 @@
 import { Observable, of, from, combineLatest, ReplaySubject } from 'rxjs'
-import { ToolTipSpeed, toolTipFeature } from './bounds/tooltip/tooltip.feature'
-import { getBoundsPaths } from './bounds/get-bounds-paths';
+import { ToolTipSpeed, toolTipFeature } from './series/tooltip/tooltip.feature'
+import { getBoundsPaths } from './series/get-bounds-paths';
 import { switchMap, filter, take } from 'rxjs/operators';
-import { nilBoundType } from './bounds/bound-drop/bound-drop';
+
 import { appMapFeature } from './app-map/app-map.feature';
-import { boundDropChangedAction, boundDropFeature } from './bounds/bound-drop/bound-drop.feature';
+
 import { store } from '@reactive-redux';
+import { seriesDropChangedAction, seriesDropFeature } from './series/series-drop/series-drop.feature';
+import { nilSeriesType } from './series/series-drop/series-drop';
 
 
 type Point = Readonly<{x: number, y: number}>
+
 const getPercent = (map: google.maps.Map, pos: google.maps.LatLng): Point => {
     const bounds = map.getBounds()
     const topRight = bounds.getNorthEast()
@@ -22,21 +25,21 @@ const getPercent = (map: google.maps.Map, pos: google.maps.LatLng): Point => {
 }
 
 export const displayBoundsEffectBinding:store.AppEffectBinding = {
-    type: boundDropChangedAction.type,
+    type: seriesDropChangedAction.type,
     effect: (actions$: Observable<store.AppAction>, store: Observable<store.AppStoreState>) => actions$.pipe(
         switchMap(() => combineLatest([
             store.pipe(appMapFeature.selectState),
-            store.pipe(boundDropFeature.selectState)
+            store.pipe(seriesDropFeature.selectState)
         ]).pipe(take(1))),
         filter( ([appMapState]) => appMapState.map !== undefined),
-        switchMap(([appMapState, boundDropState]) => {
+        switchMap(([appMapState, seriesDropState]) => {
             appMapState.polys.forEach(poly => poly.setMap(null))
-            if(!boundDropState.selected || boundDropState.selected === nilBoundType) {
+            if(!seriesDropState.selected || seriesDropState.selected === nilSeriesType) {
                 return of(appMapFeature.newUpdate({polys: []}))
             }
-            return from(getBoundsPaths(boundDropState.selected.typeName)).pipe(take(1), switchMap( (boundPaths) => {
+            return from(getBoundsPaths(seriesDropState.selected.boundType)).pipe(take(1), switchMap( (boundPaths) => {
                 if(!appMapState.map){
-                    throw new Error('map unloaded after map null fitlered. who unloaded this X_x???')
+                    throw new Error('map unloaded after map null filtered. who unloaded this X_x???')
                 }
                 const map = appMapState.map
                 const outputSubject = new ReplaySubject<store.AppAction>()

@@ -7,12 +7,12 @@ import { GlobalFooter } from './global-footer/global-footer';
 import { GlobalContent } from './global-content/global-content';
 import {Provider} from "react-redux"
 import { store as reactiveStore } from '@reactive-redux';
-import { boundDropFeature } from './global-content/bounds/bound-drop/bound-drop.feature';
-import { toolTipFeature } from './global-content/bounds/tooltip/tooltip.feature';
+import { toolTipFeature } from './global-content/series/tooltip/tooltip.feature';
 import { appMapFeature } from './global-content/app-map/app-map.feature';
+import { seriesDropFeature } from './global-content/series/series-drop/series-drop.feature';
 
 const store = reactiveStore.getAppStore([
-    boundDropFeature.subStore,
+    seriesDropFeature.subStore,
     toolTipFeature.subStore,
     appMapFeature.subStore,
 ]);
